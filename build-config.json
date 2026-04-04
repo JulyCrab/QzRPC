@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "productName": "QzRPC",
+    "description": "Unofficial Rich Presence client for a music streaming service",
+    "company": "JulyCrab",
+    "authors": "JulyCrab",
+    "copyright": "Copyright © 2025 JulyCrab",
+    "version": "1.0.0"
+  },
+  "build": {
+    "targetFramework": "net10.0",
+    "runtimeIdentifier": "win-x64",
+    "selfContained": true,
+    "singleFile": true,
+    "trimmed": false,
+    "compressed": true
+  }
+}

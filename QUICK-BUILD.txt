@@ -1,0 +1,41 @@
+╔═══════════════════════════════════════════════════════════╗
+║                  QzRPC Quick Build Guide                  ║
+╚═══════════════════════════════════════════════════════════╝
+
+BUILD THE APP
+─────────────
+  Windows:  .\build.ps1
+  Linux:    ./build.sh
+
+  Output → dist/QzRPC.exe (self-contained, no .NET needed!)
+
+
+CLEAN BUILD
+───────────
+  Windows:  .\build.ps1 -Clean
+  Linux:    ./build.sh --clean
+
+
+UPDATE VERSION
+──────────────
+  .\update-metadata.ps1 -Version "1.1.0"
+
+
+UPDATE METADATA
+───────────────
+  .\update-metadata.ps1 -Version "2.0.0" -Company "YourName"
+
+
+VIEW CURRENT METADATA
+─────────────────────
+  .\update-metadata.ps1
+
+
+EDIT METADATA MANUALLY
+──────────────────────
+  Edit: build-config.json
+  Then run: .\update-metadata.ps1 (to sync to .csproj)
+
+
+═══════════════════════════════════════════════════════════
+For detailed info, see BUILD.md

@@ -1,0 +1,306 @@
+<suki:SukiWindow xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:QobuzRPC.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+        mc:Ignorable="d" d:DesignWidth="520" d:DesignHeight="650"
+        x:Class="QobuzRPC.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="QzRPC"
+        Width="520" Height="650"
+        MinWidth="450" MinHeight="550"
+        BackgroundStyle="Flat"
+        CanResize="True"
+        WindowStartupLocation="CenterScreen"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        Icon="/Assets/musical-notes.ico">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <suki:SukiWindow.LogoContent>
+        <Image Source="/Assets/musical-notes.ico" Width="24" Height="24"/>
+    </suki:SukiWindow.LogoContent>
+
+    <Panel Background="{DynamicResource BackgroundBrush}">
+        <ScrollViewer>
+            <StackPanel Margin="35" Spacing="25">
+                
+                <!-- Header -->
+                <StackPanel Spacing="10" Margin="0,20,0,0">
+                    <TextBlock Text="QzRPC" 
+                               FontSize="32" 
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               Foreground="White"/>
+                    
+                    <TextBlock Text="Display your Qobuz activity on Discord" 
+                               FontSize="13" 
+                               Opacity="0.7"
+                               HorizontalAlignment="Center"
+                               Foreground="White"/>
+                </StackPanel>
+
+                <!-- Status Section -->
+                <Border Background="{DynamicResource CardBrush}" 
+                        CornerRadius="{DynamicResource CardCornerRadius}" 
+                        Padding="{DynamicResource CardPadding}"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Status" 
+                                   FontSize="13" 
+                                   FontWeight="SemiBold"
+                                   Opacity="0.7"
+                                   Foreground="White"/>
+                        <TextBlock Text="{Binding Status}" 
+                                   FontSize="15" 
+                                   TextWrapping="Wrap"
+                                   Foreground="White"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Configuration Section -->
+                <Border CornerRadius="{DynamicResource CardCornerRadius}" 
+                        Padding="{DynamicResource CardPadding}"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        Background="{DynamicResource CardGradient}">
+                    <StackPanel Spacing="22">
+                        <TextBlock Text="Configuration" 
+                                   FontSize="13" 
+                                   FontWeight="SemiBold"
+                                   Opacity="0.7"
+                                   Foreground="White"/>
+                        
+                        <!-- Discord Client ID -->
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Discord Client ID" 
+                                       FontSize="12" 
+                                       Opacity="0.7"
+                                       Foreground="White"/>
+                            <TextBox Text="{Binding DiscordClientId}" 
+                                     Watermark="1490007914461790399"
+                                     IsEnabled="{Binding !IsRunning}"
+                                     FontFamily="{DynamicResource MonospaceFont}"
+                                     FontSize="13"
+                                     Background="#0F0F0F"
+                                     Foreground="White"
+                                     BorderBrush="{DynamicResource BorderBrush}"
+                                     CornerRadius="8"
+                                     Padding="12,10"/>
+                            <TextBlock Text="💡 Get from: discord.com/developers/applications" 
+                                       FontSize="11" 
+                                       Foreground="{DynamicResource AccentBrush}"
+                                       Margin="2,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Last.fm API Key -->
+                        <StackPanel Spacing="10">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="Last.fm API Key" 
+                                           FontSize="12" 
+                                           Opacity="0.7"
+                                           Foreground="White"/>
+                                <Border Background="{DynamicResource BorderBrush}" 
+                                        CornerRadius="4" 
+                                        Padding="6,2">
+                                    <TextBlock Text="Optional" 
+                                               FontSize="9" 
+                                               Opacity="0.8"
+                                               Foreground="White"/>
+                                </Border>
+                            </StackPanel>
+                            <TextBox Text="{Binding LastFmApiKey}" 
+                                     Watermark="Enter API key for album art"
+                                     PasswordChar="•"
+                                     RevealPassword="False"
+                                     IsEnabled="{Binding !IsRunning}"
+                                     FontFamily="{DynamicResource MonospaceFont}"
+                                     FontSize="13"
+                                     Background="#0F0F0F"
+                                     Foreground="White"
+                                     BorderBrush="{DynamicResource BorderBrush}"
+                                     CornerRadius="8"
+                                     Padding="12,10"/>
+                            <TextBlock Text="💡 Get from: last.fm/api/account/create" 
+                                       FontSize="11" 
+                                       Foreground="{DynamicResource AccentBrush}"
+                                       Margin="2,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Control Buttons -->
+                <Grid ColumnDefinitions="*,15,*" Margin="0,5,0,0">
+                    <Button Grid.Column="0"
+                            Content="Start" 
+                            Command="{Binding StartMonitoringCommand}"
+                            IsEnabled="{Binding !IsRunning}"
+                            Height="50"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="White"
+                            CornerRadius="{DynamicResource ButtonCornerRadius}"
+                            Background="{DynamicResource PrimaryGradient}"/>
+                    <Button Grid.Column="2"
+                            Content="Stop" 
+                            Command="{Binding StopMonitoringCommand}"
+                            IsEnabled="{Binding IsRunning}"
+                            Height="50"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="White"
+                            Background="{DynamicResource CardBrush}"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            CornerRadius="{DynamicResource ButtonCornerRadius}"/>
+                </Grid>
+
+                <!-- Legal Disclaimer Toggle -->
+                <Button Command="{Binding ToggleDisclaimerCommand}"
+                        HorizontalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="{DynamicResource AccentBrush}"
+                        FontSize="11"
+                        Opacity="0.7"
+                        Padding="10,5"
+                        Cursor="Hand">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <TextBlock Text="▶" IsVisible="{Binding !IsDisclaimerExpanded}"/>
+                        <TextBlock Text="▼" IsVisible="{Binding IsDisclaimerExpanded}"/>
+                        <TextBlock Text="Show Legal Disclaimer" IsVisible="{Binding !IsDisclaimerExpanded}"/>
+                        <TextBlock Text="Hide Legal Disclaimer" IsVisible="{Binding IsDisclaimerExpanded}"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Disclaimer Content (Expandable) -->
+                <Border Background="{DynamicResource CardBrush}" 
+                        CornerRadius="10" 
+                        Padding="20"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        IsVisible="{Binding IsDisclaimerExpanded}">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Legal Disclaimer &amp; Privacy" 
+                                   FontSize="13" 
+                                   FontWeight="SemiBold"
+                                   Foreground="White"/>
+                        
+                        <TextBlock TextWrapping="Wrap" 
+                                   FontSize="11" 
+                                   Opacity="0.8"
+                                   LineHeight="18"
+                                   Foreground="White">
+                            <Run Text="This application is an unofficial third-party tool and is not affiliated with, endorsed by, or connected to Qobuz, Discord, or Last.fm."/>
+                        </TextBlock>
+                        
+                        <TextBlock Text="How We Use Your Data:" 
+                                   FontSize="12" 
+                                   FontWeight="SemiBold"
+                                   Margin="0,8,0,0"
+                                   Foreground="White"/>
+                        
+                        <StackPanel Spacing="8">
+                            <TextBlock TextWrapping="Wrap" 
+                                       FontSize="11" 
+                                       Opacity="0.8"
+                                       LineHeight="18"
+                                       Foreground="White">
+                                <Run Text="• "/>
+                                <Run FontWeight="SemiBold" Text="Discord Client ID:"/>
+                                <Run Text=" Used only to connect to Discord's Rich Presence API. Stored locally on your device."/>
+                            </TextBlock>
+                            
+                            <TextBlock TextWrapping="Wrap" 
+                                       FontSize="11" 
+                                       Opacity="0.8"
+                                       LineHeight="18"
+                                       Foreground="White">
+                                <Run Text="• "/>
+                                <Run FontWeight="SemiBold" Text="Last.fm API Key:"/>
+                                <Run Text=" Used to fetch album artwork. Stored locally on your device. No data is sent to our servers."/>
+                            </TextBlock>
+                            
+                            <TextBlock TextWrapping="Wrap" 
+                                       FontSize="11" 
+                                       Opacity="0.8"
+                                       LineHeight="18"
+                                       Foreground="White">
+                                <Run Text="• "/>
+                                <Run FontWeight="SemiBold" Text="Qobuz Activity:"/>
+                                <Run Text=" Monitored locally on your device to display what you're listening to. No listening data is collected or transmitted by us."/>
+                            </TextBlock>
+                            
+                            <TextBlock TextWrapping="Wrap" 
+                                       FontSize="11" 
+                                       Opacity="0.8"
+                                       LineHeight="18"
+                                       Foreground="White">
+                                <Run Text="• "/>
+                                <Run FontWeight="SemiBold" Text="No Analytics:"/>
+                                <Run Text=" We don't collect usage statistics, telemetry, or any personal information."/>
+                            </TextBlock>
+                        </StackPanel>
+                        
+                        <TextBlock TextWrapping="Wrap" 
+                                   FontSize="10" 
+                                   Opacity="0.6"
+                                   Margin="0,8,0,0"
+                                   LineHeight="16"
+                                   Foreground="White">
+                            <Run Text="All data is stored locally in: "/>
+                            <Run FontFamily="{DynamicResource MonospaceFont}" Text="%AppData%\QzRPC\settings.json"/>
+                        </TextBlock>
+                        
+                        <TextBlock TextWrapping="Wrap" 
+                                   FontSize="10" 
+                                   Opacity="0.6"
+                                   Margin="0,4,0,0"
+                                   LineHeight="16"
+                                   Foreground="White"
+                                   Text="By using this application, you acknowledge that it is provided 'as is' without warranty of any kind. Use at your own risk."/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Footer Info -->
+                <Border Background="{DynamicResource CardBrush}" 
+                        CornerRadius="10" 
+                        Padding="20"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Requirements" 
+                                   FontSize="11" 
+                                   Opacity="0.7"
+                                   HorizontalAlignment="Center"
+                                   Foreground="White"/>
+                        <TextBlock Text="· Qobuz Desktop App" 
+                                   FontSize="11" 
+                                   Opacity="0.6"
+                                   HorizontalAlignment="Center"
+                                   Foreground="White"/>
+                        <TextBlock Text="· Discord Desktop App" 
+                                   FontSize="11" 
+                                   Opacity="0.6"
+                                   HorizontalAlignment="Center"
+                                   Foreground="White"/>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Credit -->
+                <TextBlock Text="Made with ❤️ by JulyCrab in Andalusia" 
+                           FontSize="11" 
+                           Opacity="0.4"
+                           HorizontalAlignment="Center"
+                           Margin="0,5,0,10"
+                           Foreground="White"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
+
+</suki:SukiWindow>
