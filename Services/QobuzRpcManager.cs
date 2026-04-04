@@ -114,7 +114,7 @@ public class QobuzRpcManager : IDisposable
             _lastTrackInfo = null;
             _pausedTime = null;
             _discordRpc.SetIdle();
-            UpdateStatus("Idle (paused for 1 minute)");
+            UpdateStatus("Idle");
         }
     }
 
