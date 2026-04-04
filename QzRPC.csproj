@@ -22,7 +22,7 @@
     <Description>Unofficial Rich Presence client for a music streaming service</Description>
     <Company>JulyCrab</Company>
     <Authors>JulyCrab</Authors>
-    <Copyright>Copyright © 2025 JulyCrab</Copyright>
+    <Copyright>Copyright (c) 2026 JulyCrab</Copyright>
     
     <!-- Version Information -->
     <Version>1.0.0</Version>
@@ -31,6 +31,12 @@
     
     <!-- Additional Info -->
     <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <!-- Release Configuration: Disable debug symbols for distribution -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
