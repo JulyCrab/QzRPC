@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore QzRPC.csproj
+    
+    - name: Build
+      run: dotnet build QzRPC.csproj -c Release --no-restore
+    
+    - name: Publish
+      run: |
+        dotnet publish QzRPC.csproj `
+          -c Release `
+          -r win-x64 `
+          -p:PublishSingleFile=true `
+          -p:SelfContained=true `
+          -p:PublishTrimmed=false `
+          -p:EnableCompressionInSingleFile=true `
+          -p:IncludeNativeLibrariesForSelfExtract=true `
+          --output dist
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: QzRPC-windows-x64
+        path: dist/QzRPC.exe
+        if-no-files-found: error
