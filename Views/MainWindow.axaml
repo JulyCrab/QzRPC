@@ -196,7 +196,7 @@
                                    Opacity="0.8"
                                    LineHeight="18"
                                    Foreground="White">
-                            <Run Text="This application is an unofficial third-party tool and is not affiliated with, endorsed by, or connected to Qobuz, Discord, or Last.fm."/>
+                            <Run Text="This application is an unofficial third-party tool and is not affiliated with, endorsed by, or connected to Qobuz, Discord, Last.fm, Apple Inc., or iTunes."/>
                         </TextBlock>
                         
                         <TextBlock Text="How We Use Your Data:" 
@@ -224,6 +224,16 @@
                                 <Run Text="• "/>
                                 <Run FontWeight="SemiBold" Text="Last.fm API Key:"/>
                                 <Run Text=" Used to fetch album artwork. Stored locally on your device. No data is sent to our servers."/>
+                            </TextBlock>
+                            
+                            <TextBlock TextWrapping="Wrap" 
+                                       FontSize="11" 
+                                       Opacity="0.8"
+                                       LineHeight="18"
+                                       Foreground="White">
+                                <Run Text="• "/>
+                                <Run FontWeight="SemiBold" Text="Album Artwork:"/>
+                                <Run Text=" Fetched from Last.fm and iTunes Search API. These services have their own privacy policies."/>
                             </TextBlock>
                             
                             <TextBlock TextWrapping="Wrap" 
