@@ -31,7 +31,7 @@ RUNTIME="win-x64"
 # clean if requested
 if [ "$CLEAN" = true ]; then
     echo "Cleaning previous builds..."
-    rm -rf bin obj ../dist
+    rm -rf bin obj dist
     echo "Clean complete!"
     echo ""
 fi
@@ -51,7 +51,7 @@ dotnet publish QzRPC.csproj \
     -p:EnableCompressionInSingleFile=true \
     -p:IncludeNativeLibrariesForSelfExtract=true \
     -p:Version="$VERSION" \
-    --output ../dist
+    --output dist
 
 if [ $? -eq 0 ]; then
     echo ""
@@ -59,8 +59,8 @@ if [ $? -eq 0 ]; then
     echo ""
     echo "Output: dist/QzRPC.exe"
     
-    if [ -f "../dist/QzRPC.exe" ]; then
-        SIZE=$(du -h ../dist/QzRPC.exe | cut -f1)
+    if [ -f "dist/QzRPC.exe" ]; then
+        SIZE=$(du -h dist/QzRPC.exe | cut -f1)
         echo "File Size: $SIZE"
     fi
 else

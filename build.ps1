@@ -17,7 +17,7 @@ if ($Clean) {
     Write-Host "Cleaning previous builds..." -ForegroundColor Yellow
     Remove-Item -Path "bin" -Recurse -Force -ErrorAction SilentlyContinue
     Remove-Item -Path "obj" -Recurse -Force -ErrorAction SilentlyContinue
-    Remove-Item -Path "../dist" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -Path "dist" -Recurse -Force -ErrorAction SilentlyContinue
     Write-Host "Clean complete!" -ForegroundColor Green
     Write-Host ""
 }
@@ -40,7 +40,7 @@ $buildArgs = @(
     "-p:EnableCompressionInSingleFile=$($config.build.compressed)",
     "-p:IncludeNativeLibrariesForSelfExtract=true",
     "-p:Version=$($config.metadata.version)",
-    "--output", "../dist"
+    "--output", "dist"
 )
 
 & dotnet $buildArgs
@@ -52,7 +52,7 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "Output: dist/QzRPC.exe" -ForegroundColor Cyan
     
     # show file size
-    $exePath = "../dist/QzRPC.exe"
+    $exePath = "dist/QzRPC.exe"
     if (Test-Path $exePath) {
         $fileSize = (Get-Item $exePath).Length / 1MB
         Write-Host "File Size: $([math]::Round($fileSize, 2)) MB" -ForegroundColor Gray

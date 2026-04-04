@@ -7,7 +7,7 @@ BUILD THE APP
   Windows:  .\build.ps1
   Linux:    ./build.sh
 
-  Output → dist/QzRPC.exe (self-contained, no .NET needed!)
+  Output → <project-root>/dist/QzRPC.exe (self-contained, no .NET needed!)
 
 
 CLEAN BUILD

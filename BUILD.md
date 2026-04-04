@@ -102,7 +102,7 @@ Edit `build-config.json` to customize build settings:
 If you prefer to build manually:
 
 ```bash
-dotnet publish QzRPC.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=true --output ../dist
+dotnet publish QzRPC.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=true --output dist
 ```
 
 ## File Size

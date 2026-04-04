@@ -62,7 +62,6 @@ The application monitors your Qobuz desktop client and updates your Discord stat
 The project includes automated build scripts for easy compilation:
 
 ```bash
-cd QobuzRPC
 .\build.ps1
 ```
 
