@@ -34,7 +34,8 @@ public class DiscordRpcService : IDisposable
             {
                 LargeImageKey = albumArtUrl ?? "qobuz",
                 LargeImageText = albumArtUrl != null ? $"{trackName} - {artistName}" : "Qobuz"
-            }
+            },
+            Type = ActivityType.Listening
         };
 
         // only show elapsed time when actually playing
