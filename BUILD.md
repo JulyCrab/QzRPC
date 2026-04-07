@@ -107,7 +107,7 @@ dotnet publish QzRPC.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:S
 
 ## File Size
 
-The self-contained executable is typically 80-120 MB because it includes:
+The self-contained executable might be bigger because it includes:
 - .NET 10 runtime
 - Avalonia UI framework
 - All dependencies
