@@ -3,10 +3,14 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-    <ApplicationIcon>Assets\musical-notes.ico</ApplicationIcon>
-    
+
+    <!-- Windows-only packaging: the Win32 manifest and .ico are ignored on macOS/Linux.
+         Scope them to Windows targets so non-Windows publishes build cleanly.
+         The empty-RID case keeps icon/manifest for local Windows dev and IDE design builds. -->
+    <ApplicationManifest Condition="'$(RuntimeIdentifier)' == '' Or $(RuntimeIdentifier.StartsWith('win'))">app.manifest</ApplicationManifest>
+    <ApplicationIcon Condition="'$(RuntimeIdentifier)' == '' Or $(RuntimeIdentifier.StartsWith('win'))">Assets\musical-notes.ico</ApplicationIcon>
+
     <!-- Self-Contained Deployment -->
     <SelfContained>true</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -37,7 +41,19 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
+    <!-- Don't copy reference-related .pdb/.xml files into the output. -->
+    <AllowedReferenceRelatedFileExtensions>none</AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
+
+  <!-- Native debug symbols (e.g. libSkiaSharp.pdb, libHarfBuzzSharp.pdb) arrive as native
+       runtime assets, so the property above does not remove them. Strip any stray .pdb from
+       the Release publish output so distributions don't ship ~100 MB of unused symbols. -->
+  <Target Name="RemovePublishPdbs" AfterTargets="Publish" Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <_PublishPdbs Include="$(PublishDir)**\*.pdb" />
+    </ItemGroup>
+    <Delete Files="@(_PublishPdbs)" />
+  </Target>
 
   <ItemGroup>
     <Folder Include="Models\" />
@@ -45,18 +61,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.3.13" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.3.13" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.13" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.12" />
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.13">
-      <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
-      <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Avalonia" Version="12.0.5" />
+    <PackageReference Include="Avalonia.Desktop" Version="12.0.5" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.0.5" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="12.0.5" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
-    <PackageReference Include="SukiUI" Version="6.0.3" />
-  <PackageReference Include="Tmds.DBus.Protocol" Version="0.21.3" />
+    <PackageReference Include="SukiUI" Version="7.0.1" />
   </ItemGroup>
 </Project>

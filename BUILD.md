@@ -4,6 +4,8 @@ This project includes automated build scripts for easy compilation and deploymen
 
 ## Quick Start
 
+By default the build produces **both** the Windows and macOS apps in one run.
+
 ### Windows (PowerShell)
 ```powershell
 .\build.ps1
@@ -14,24 +16,39 @@ This project includes automated build scripts for easy compilation and deploymen
 build.bat
 ```
 
-### Linux/Mac
+### Linux/macOS
 ```bash
 chmod +x build.sh
 ./build.sh
 ```
 
+### Single platform
+```powershell
+.\build.ps1 -Win        # Windows only   (or: build.bat -Win)
+.\build.ps1 -Mac        # macOS only     (or: build.bat -Mac)
+```
+```bash
+./build.sh --win        # Windows only
+./build.sh --mac        # macOS only
+```
+> The macOS build wraps the `osx-x64` binary in a `QzRPC.app` bundle (with icon) and zips it to
+> `dist/QzRPC-macos.zip`. The zip stores the Unix executable bit in its metadata even when built
+> on Windows, so it runs on macOS straight after unzipping, no `chmod` needed. (The zip step uses
+> Python; if Python isn't found, the bundle is left as `dist/QzRPC.app` and just needs a one-time
+> `chmod +x` on macOS.)
+
 ## Build Output
 
-The build creates a **self-contained, single-file executable** at:
+The build creates **self-contained, single-file** apps in `dist/`:
 ```
-dist/QzRPC.exe
+dist/QzRPC.exe          (Windows)
+dist/QzRPC-macos.zip    (macOS; unzipped .app left alongside)
 ```
 
-This executable:
-- Includes the .NET runtime (no installation required)
-- Contains all dependencies in one file
-- Is compressed for smaller file size
-- Works on any Windows x64 system
+These:
+- Include the .NET runtime (no installation required)
+- Contain all dependencies in one file
+- Are compressed for smaller file size
 
 ## Build Options
 
@@ -50,6 +67,10 @@ Removes all previous build artifacts before building:
 ```bash
 ./build.sh --debug
 ```
+
+### Platform selection
+The default builds both platforms; restrict with `-Win` / `-Mac` (PowerShell) or `--win` / `--mac` (bash).
+Flags combine, e.g. `.\build.ps1 -Mac -Clean` or `./build.sh --mac --clean`.
 
 ## Updating Metadata
 

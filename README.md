@@ -13,7 +13,7 @@ A Discord Rich Presence client for Qobuz that displays your current listening ac
 
 ## Requirements
 
-- Windows 10/11 (x64)
+- Windows 10/11 (x64) or macOS 10.15+
 - Qobuz Desktop App
 - Discord Desktop App
 
@@ -26,7 +26,7 @@ You'll need to create a Discord application to use Rich Presence. If you want to
 1. Visit the [Discord Developer Portal](https://discord.com/developers/applications)
 2. Click "New Application" and give it a name (e.g., "Qobuz")
 3. Navigate to the "General Information" tab and copy your Application ID
-4. (Optional) Go to "Rich Presence" → "Art Assets" and upload any image you want, then reference it in the code
+4. (Optional) Go to "Rich Presence" --> "Art Assets" and upload any image you want, then reference it in the code
 
 Alternatively, you can use the default Discord Application ID: `1490007914461790399`
 
@@ -40,12 +40,24 @@ For album art support, you can register for a free Last.fm API key:
 
 ### Running the Application
 
+**Windows:**
 1. Download `QzRPC.exe` from the releases page
 2. Launch the application
 3. Enter your Discord Application ID
 4. (Optional) Enter your Last.fm API Key for album art
 5. Click "Start"
 6. Open Qobuz and start playing music
+
+**macOS:**
+1. Download `QzRPC-macos.zip` from the releases page
+2. Unzip it and move `QzRPC.app` to your Applications folder
+3. Right-click `QzRPC.app` → "Open" (required the first time, because the app is unsigned)
+4. Enter your Discord Application ID
+5. (Optional) Enter your Last.fm API Key for album art
+6. Click "Start"
+7. Open Qobuz and start playing music
+
+> The first time you start monitoring, macOS may ask for **Accessibility** permission, QzRPC needs it to read the Qobuz window title. Approve it in System Settings --> Privacy & Security --> Accessibility.
 
 Your settings are automatically saved for future sessions.
 
@@ -87,10 +99,15 @@ dotnet publish QzRPC.csproj -c Release -r win-x64 -p:PublishSingleFile=true --ou
 - Some tracks may not have artwork available in the Last.fm/iTunes databases
 - The fallback Qobuz logo will display if no artwork is found
 
-**Application won't launch**
+**Application won't launch (Windows)**
 - Ensure Qobuz Desktop is installed
 - Try running as administrator
 - Check Windows Defender or antivirus isn't blocking the executable
+
+**Application won't launch (macOS)**
+- The app is unsigned: right-click `QzRPC.app` --> "Open", then confirm. (Or go to System Settings --> Privacy & Security and click "Open Anyway".)
+- If the track always shows as just "Qobuz", grant **Accessibility** permission: System Settings --> Privacy & Security --> Accessibility, then enable QzRPC. This lets it read the Qobuz window title.
+- Ensure Qobuz Desktop is installed and running
 
 ## Technical Details
 
