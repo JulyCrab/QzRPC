@@ -1,0 +1,52 @@
+name: Build macOS
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v6
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore QzRPC.csproj -r osx-x64
+
+    - name: Build
+      run: dotnet build QzRPC.csproj -c Release -r osx-x64 --no-restore
+    
+    - name: Publish
+      run: |
+        dotnet publish QzRPC.csproj \
+          -c Release \
+          -r osx-x64 \
+          -p:PublishSingleFile=true \
+          -p:SelfContained=true \
+          -p:PublishTrimmed=false \
+          -p:EnableCompressionInSingleFile=true \
+          -p:IncludeNativeLibrariesForSelfExtract=true \
+          --output dist
+
+    - name: Build .app bundle
+      run: |
+        chmod +x build/macos/make-app-bundle.sh
+        build/macos/make-app-bundle.sh dist/QzRPC dist
+
+    - name: Zip .app bundle
+      run: ditto -c -k --keepParent dist/QzRPC.app QzRPC-macos.zip
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: QzRPC-macos-x64
+        path: QzRPC-macos.zip
+        if-no-files-found: error

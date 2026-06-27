@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace QobuzRPC.Services;
 
-public class QobuzMonitor : IDisposable
+public class WindowsQobuzMonitor : IProcessMonitor
 {
     private const string ProcessName = "Qobuz";
     private readonly Timer _timer;
@@ -18,7 +18,7 @@ public class QobuzMonitor : IDisposable
     
     private string _lastTitle = string.Empty;
 
-    public QobuzMonitor()
+    public WindowsQobuzMonitor()
     {
         _timer = new Timer(1000); // Check every second
         _timer.Elapsed += OnTimerElapsed;

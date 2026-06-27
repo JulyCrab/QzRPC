@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  release:
+  release-windows:
     runs-on: windows-latest
     permissions:
       contents: write
@@ -19,15 +19,10 @@ jobs:
       with:
         dotnet-version: '10.0.x'
     
-    - name: Get version from tag
-      id: get_version
-      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-      shell: bash
-    
     - name: Restore dependencies
       run: dotnet restore QzRPC.csproj
     
-    - name: Publish
+    - name: Publish Windows
       run: |
         dotnet publish QzRPC.csproj `
           -c Release `
@@ -37,12 +32,86 @@ jobs:
           -p:PublishTrimmed=false `
           -p:EnableCompressionInSingleFile=true `
           -p:IncludeNativeLibrariesForSelfExtract=true `
-          --output dist
+          --output dist-windows
     
+    - name: Upload Windows artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build
+        path: dist-windows/QzRPC.exe
+
+  release-macos:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - uses: actions/checkout@v6
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '10.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore QzRPC.csproj
+    
+    - name: Publish macOS
+      run: |
+        dotnet publish QzRPC.csproj \
+          -c Release \
+          -r osx-x64 \
+          -p:PublishSingleFile=true \
+          -p:SelfContained=true \
+          -p:PublishTrimmed=false \
+          -p:EnableCompressionInSingleFile=true \
+          -p:IncludeNativeLibrariesForSelfExtract=true \
+          --output dist-macos
+    
+    - name: Build .app bundle
+      run: |
+        chmod +x build/macos/make-app-bundle.sh
+        build/macos/make-app-bundle.sh dist-macos/QzRPC dist-macos
+
+    - name: Zip .app bundle
+      run: ditto -c -k --keepParent dist-macos/QzRPC.app QzRPC-macos.zip
+
+    - name: Upload macOS artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-build
+        path: QzRPC-macos.zip
+
+  create-release:
+    needs: [release-windows, release-macos]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Download Windows artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: windows-build
+        path: windows
+    
+    - name: Download macOS artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: macos-build
+        path: macos
+    
+    - name: Rename artifacts
+      run: |
+        mv windows/QzRPC.exe QzRPC-windows.exe
+        mv macos/QzRPC-macos.zip QzRPC-macos.zip
+
     - name: Create Release
       uses: softprops/action-gh-release@v3
       with:
-        files: dist/QzRPC.exe
+        files: |
+          QzRPC-windows.exe
+          QzRPC-macos.zip
         draft: false
         prerelease: false
         generate_release_notes: true

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>QzRPC</string>
+    <key>CFBundleDisplayName</key>
+    <string>QzRPC</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.julycrab.qzrpc</string>
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleExecutable</key>
+    <string>QzRPC</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>10.15</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.music</string>
+    <!-- QzRPC reads the Qobuz window title via System Events (AppleScript),
+         which needs Accessibility/Apple Events permission. -->
+    <key>NSAppleEventsUsageDescription</key>
+    <string>QzRPC reads the Qobuz window title to detect the track you are currently playing.</string>
+</dict>
+</plist>

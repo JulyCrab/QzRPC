@@ -1,2 +1,10 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Shell scripts must keep LF endings so they run on the macOS/Linux CI runners
+*.sh text eol=lf
+
+# Binary assets — never apply line-ending normalization (would corrupt them)
+*.icns binary
+*.png binary
+*.ico binary

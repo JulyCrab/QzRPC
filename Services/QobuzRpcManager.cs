@@ -6,7 +6,7 @@ namespace QobuzRPC.Services;
 
 public class QobuzRpcManager : IDisposable
 {
-    private readonly QobuzMonitor _monitor;
+    private readonly IProcessMonitor _monitor;
     private readonly DiscordRpcService _discordRpc;
     private readonly MusicMetadataService _metadataService;
     
@@ -19,7 +19,7 @@ public class QobuzRpcManager : IDisposable
 
     public QobuzRpcManager(string discordClientId)
     {
-        _monitor = new QobuzMonitor();
+        _monitor = ProcessMonitorFactory.Create();
         _discordRpc = new DiscordRpcService(discordClientId);
         _metadataService = new MusicMetadataService();
         

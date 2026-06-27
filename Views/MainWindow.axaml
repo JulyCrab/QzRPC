@@ -13,17 +13,14 @@
         BackgroundStyle="Flat"
         CanResize="True"
         WindowStartupLocation="CenterScreen"
-        ExtendClientAreaToDecorationsHint="True"
-        ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaTitleBarHeightHint="-1"
-        Icon="/Assets/musical-notes.ico">
+        Icon="/Assets/musical-notes.png">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
     <suki:SukiWindow.LogoContent>
-        <Image Source="/Assets/musical-notes.ico" Width="24" Height="24"/>
+        <Image Source="/Assets/musical-notes.png" Width="24" Height="24"/>
     </suki:SukiWindow.LogoContent>
 
     <Panel Background="{DynamicResource BackgroundBrush}">
@@ -84,7 +81,7 @@
                                        Opacity="0.7"
                                        Foreground="White"/>
                             <TextBox Text="{Binding DiscordClientId}" 
-                                     Watermark="1490007914461790399"
+                                     PlaceholderText="1490007914461790399"
                                      IsEnabled="{Binding !IsRunning}"
                                      FontFamily="{DynamicResource MonospaceFont}"
                                      FontSize="13"
@@ -116,7 +113,7 @@
                                 </Border>
                             </StackPanel>
                             <TextBox Text="{Binding LastFmApiKey}" 
-                                     Watermark="Enter API key for album art"
+                                     PlaceholderText="Enter API key for album art"
                                      PasswordChar="•"
                                      RevealPassword="False"
                                      IsEnabled="{Binding !IsRunning}"
