@@ -21,7 +21,7 @@ A Discord Rich Presence client for Qobuz that displays your current listening ac
 
 ### Discord Application Setup
 
-You'll need to create a Discord application to use Rich Presence. If you want to customize the image and name, follow these steps:
+You'll need to create a Discord application to use Rich Presence. If you want to customize the default image and name, follow these steps:
 
 1. Visit the [Discord Developer Portal](https://discord.com/developers/applications)
 2. Click "New Application" and give it a name (e.g., "Qobuz")
