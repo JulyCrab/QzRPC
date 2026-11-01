@@ -45,7 +45,7 @@ jobs:
       run: ditto -c -k --keepParent dist/QzRPC.app QzRPC-macos.zip
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: QzRPC-macos-x64
         path: QzRPC-macos.zip
